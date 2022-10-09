@@ -1,0 +1,53 @@
+/* ===== 안이 차있는 칩(메인) =====*/
+.main-chip{
+	margin: 0.4rem;
+	display: flex;
+	height: 1.3rem;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	background-image: $color-main;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+.main-chip span {
+		// 칩 텍스트
+		margin: 0.6rem;
+		font-weight: 400;
+		font-size: 0.5rem;
+		line-height: 16px;
+		text-align: center;
+		color: white;
+		background-clip: text;
+
+}
+
+
+/* ===== 기능 설명 칩(안 흰색) =====*/
+.sub-chip{
+	margin: 0.4rem;
+	display: flex;
+	height: 1.3rem;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid transparent;
+	border-radius: 10px;
+	background-image: linear-gradient(#fff, #fff), $color-main;
+	background-origin: border-box;
+	background-clip: content-box, border-box;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+.sub-chip span {
+		// 기능 설명 칩 텍스트
+		margin: 0.6rem;
+		font-weight: 400;
+		font-size: 0.5rem;
+		line-height: 16px;
+		text-align: center;
+		background: linear-gradient(180deg, #7C58EB 0%, #6E9DF5 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		color: transparent;
+}

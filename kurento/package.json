@@ -1,0 +1,29 @@
+{
+  "name": "kurento-one2one-call",
+  "version": "6.18.0-dev",
+  "private": true,
+  "scripts": {
+    "postinstall": "cd static && bower install",
+    "dev": "vite --port 8443",
+    "build": "vite build --port 8443",
+    "serve": "vite preview --port 8443",
+    "module": "index.mjs"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "kurento-client": "git+https://github.com/Kurento/kurento-client-js.git",
+    "minimist": "^1.1.1",
+    "ws": "^7.1.0",
+    "yjs": "^13.5.11"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.3.0",
+    "@vue/compiler-sfc": "^3.0.5",
+    "bower": "^1.4.1",
+    "typescript": "^4.3.2",
+    "vite": "^2.4.4",
+    "vue-tsc": "^0.2.2"
+  }
+}

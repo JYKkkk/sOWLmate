@@ -1,0 +1,59 @@
+// 화면 작아지면 카드 부분 안보이게
+@media screen and (max-width: 600px) {
+  .auth-card {
+    display: none;
+  }
+}
+
+.form-err {
+  position: relative;
+  top: -1rem;
+  color: $color-red;
+  font-weight: 300;
+  font-size: 0.4rem;
+  line-height: 15px;
+  margin: 0;
+  padding: 0;
+}
+.form-blue {
+  position: relative;
+  top: -1rem;
+  color: $color-blue;
+  font-weight: 300;
+  font-size: 0.4rem;
+  line-height: 15px;
+  margin: 0;
+  padding: 0;
+}
+.auth-q {
+  color: $color-gray400;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+}
+
+.greeting {
+  position: relative;
+  top: 4rem;
+}
+
+.confirm-position {
+  position: relative;
+  left: -3rem;
+  top: 1.4rem;
+}
+
+
+.signup-explain {
+  color : $color-gray400
+}
+
+.width-6 {
+  width: 6rem;
+}
+
+.font-08 {
+  font-size: 0.8rem;
+}

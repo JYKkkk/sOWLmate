@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="shortcut icon" href="assets/image/logoIcon.svg" type="image/svg"/>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/demo-console/index.css">
+    <link rel="stylesheet" href="bower_components/ekko-lightbox/dist/ekko-lightbox.min.css">
+    <script src="https://kit.fontawesome.com/efaff327b3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/kurento.css">
+
+    <script src="bower_components/webrtc-adapter/release/adapter.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/demo-console/index.js"></script>
+    <script src="bower_components/draggabilly/dist/draggabilly.pkgd.min.js"></script>
+    <script src="bower_components/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+
+    <script src="bower_components/kurento-utils/js/kurento-utils.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://npmcdn.com/flickity@2/dist/flickity.pkgd.js" type="text/javascript"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"></script>
+
+    <script>
+      // chatting
+      function show(){
+          if($('.main__chat_window').css('display') == 'none'){
+            $('.main__chat_window').show();
+      }else{
+          $('.main__chat_window').hide();
+      }
+      }
+
+    // filter button
+    const faceButton = document.querySelector('.face-button');
+    const faceContainer = document.querySelector('.face-container');
+    const containerCoords = document.querySelector('#container');
+    const mouseCoords = containerCoords.getBoundingClientRect();
+
+    faceButton.addEventListener('mousemove', function(e) {
+      const mouseX = e.pageX - containerCoords.offsetLeft;
+      const mouseY = e.pageY - containerCoords.offsetTop;
+      
+      TweenMax.to(faceButton, 0.3, {
+        x: (mouseX - mouseCoords.width / 2) / mouseCoords.width * 50,
+        y: (mouseY - mouseCoords.height / 2) / mouseCoords.width * 50,
+        ease: Power4.easeOut
+      })
+    });
+
+  faceButton.addEventListener('mousemove', function(e) {
+  const mouseX = e.pageX - containerCoords.offsetLeft;
+  const mouseY = e.pageY - containerCoords.offsetTop;
+  
+  TweenMax.to(faceContainer, 0.3, {
+     x: (mouseX - mouseCoords.width / 2) / mouseCoords.width * 25,
+     y: (mouseY - mouseCoords.height / 2) / mouseCoords.width * 25,
+     ease: Power4.easeOut
+   })
+  });
+
+  faceButton.addEventListener('mouseenter', function(e) {
+  TweenMax.to(faceButton, 0.3, {
+    scale: 0.975
+  })
+});
+
+  faceButton.addEventListener('mouseleave', function(e) {
+  TweenMax.to(faceButton, 0.3, {
+    x: 0,
+    y: 0,
+    scale: 1
+  })
+  
+  TweenMax.to(faceContainer, 0.3, {
+    x: 0,
+    y: 0,
+    scale: 1
+  })
+});
+
+    // fiilter
+    function Filtershow(){
+        if($('.main__left').css('display') == 'none'){
+          $('.main__left').show();
+    }else{
+        $('.main__left').hide();
+
+    }
+    }
+
+  (function(){
+    $("#lock").on("click", function() {
+      $(".lock-check").fadeToggle( "fast");
+    });
+  })()
+
+  </script>
+    <script defer src="js/index.js"></script>
+    <script>
+      var sharedMessages = [];
+      var listening = {
+        value:false
+      };
+      var check = false;
+      var draft = "";
+
+      const sr = new webkitSpeechRecognition();
+      sr.lang = "ko-KR";
+      const sr2 = new webkitSpeechRecognition();
+      sr2.lang = "ko-KR";
+      sr2.continuous = true;
+      sr2.interimResults = true;
+
+      const ask = function(prompt) {return awaiter(void 0, void 0, Promise, function(){
+        return generator(this, function(a){
+            switch(a.label){
+                case 0:
+                    a.trys.push([0, , 2, 3]);
+                    currentPrompt.value = prompt;
+                    return [4, new Promise(function (resolve, reject){
+                        sr.onresult = function(event){
+                            var text = Array.from(event.results)
+                                .map(function(alts){return alts[0].transcript;})
+                                .join("");
+                            resolve(text);
+                        };
+                        sr.onerror = function(e) {
+                            reject(new Error("Unable to recognize text: " + e.error));
+                        };
+                        sr.start();
+                    })];
+                case 1: return [2, a.sent()];
+                case 2: 
+                    currentPrompt.value = "";
+                    return [7];
+                case 3: return [2];
+            }
+        });
+    }); };
+
+    const startListen = function() {
+      check = !check
+      if (check === true) {
+      //console.log("startListen");
+      listening.value = true;
+      sr2.onresult = function(event) {
+          var finalTranscript = "";
+          var interimTranscript = "";
+          for(var i=event.resultIndex; i<event.results.length; i++){
+              if(event.results[i].isFinal){
+                  finalTranscript += event.results[i][0].transcript;
+              } else {
+                  interimTranscript += event.results[i][0].transcript;
+              }
+          }
+          draft.value = interimTranscript;
+          //console.log(draft);
+          if(finalTranscript) {
+              sharedMessages.push([
+                  {
+                      text: finalTranscript,
+                  },
+              ]);
+              //console.log(sharedMessages);
+              //console.log(sharedMessages[sharedMessages.length-1][0].text);
+              axios({
+                baseURL: "https://api.cognitive.microsofttranslator.com/",
+                url: '/translate',
+                method: 'post',
+                headers: {
+                  'Ocp-Apim-Subscription-Key': "b1c87c3a98964443ba16fbb4db3e572b",
+                  'Ocp-Apim-Subscription-Region': "koreacentral",
+                  'Content-type': 'application/json',
+                  'X-ClientTraceId': uuidv4().toString()
+                },
+                params: {
+                  'api-version': '3.0',
+                  'from': 'ko',
+                  'to': 'en'
+                },
+                data: [{
+                  'text': sharedMessages[sharedMessages.length-1][0].text
+                }],
+                responseType: 'json'
+              }).then(function(response){
+                var translationResult = response.data;
+                document.getElementById("videoSubtitles").innerHTML = translationResult[0].translations[0].text;
+                $('#videoSubtitles').css('display') = 'inline-block'
+                //console.log(JSON.stringify(response.data, null, 4));
+              })
+            }
+      };
+      sr2.onerror = function() {
+        //console.log("onerror");
+        try {
+          if(listening.value===true) {
+            sr2.start();
+          }
+        } catch {
+          //console.log("말을 더 이상 안하실 예정이면 번역 기능을 꺼주세요~!");
+        }
+        listening.value = false;
+      };
+      sr2.onend = function() {
+        //console.log("onend");
+        if(listening.value===true) {
+          sr2.start();
+        }
+        listening.value = false;
+      };
+      sr2.start();
+      return [2];} else stopListen()
+    };
+    
+    var stopListen = function () {
+        //console.log("stopListen");
+        listening.value = false;
+        sr2.stop();
+        $('#videoSubtitles').css('display') == 'none'
+    };
+
+
+    </script>
+    <title>sOWLmate</title>
+
+  </head>
+  <body>
+    <!-- header -->
+    <div class="header">
+      <div class="container">
+        <ul class="navbar-left">
+          <li class="header-li"><img id="logo" src="./assets/image/logoLong.svg" alt="logo"></li>
+          <li class="header-li"><span class="title">Title of Meeting</span></li>
+        </ul>
+        <ul class="navbar-right">
+          <li class="header-li"><span class="time-check">시간 체크</span></li>
+          <li class="header-li"><button class="btn btn--primary" id="terminate">종료</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="main">  
+      <!-- 필터 선택 -->
+      <!-- <div class="filter-button">
+        <div id="filter-container">
+          <button class="face-button">
+            <span class="face-container">
+              <span class="eye left"></span>
+              <span class="eye right"></span>
+              <span class="mouth"></span>
+            </span>
+          </button>
+        </div>
+      </div> -->
+      <div class="main__left" style="display: none;">
+        <div class="filter">
+          <div class="effects">
+            <div value="" class="btn--pri"><p>Filter Off</p></div>
+            <div value="alien" class="btn--pri"><p>Alien</p></div>
+            <div value="aviators" class="btn--pri"><p>Aviators</p></div>
+            <div value="background_blur" class="btn--pri"><p>Background Blur</p></div>
+            <div value="segmentation" class="btn--pri"><p>Segmentation</p></div>
+            <div value="ball_face" class="btn--pri"><p>Ball Face</p></div>
+            <div value="beard" class="btn--pri"><p>Beard</p></div>
+            <div value="beauty" class="btn--pri"><p>Beauty</p></div>
+            <div value="dalmatian" class="btn--pri"><p>Dalmatian</p></div>
+            <div value="fairy_lights" class="btn--pri"><p>Fairy Lights</p></div>
+            <div value="flowers" class="btn--pri"><p>Flowers</p></div>
+            <div value="frankenstein" class="btn--pri"><p>Frankenstein</p></div>
+            <div value="hair_segmentation" class="btn--pri"><p>Hair</p></div>
+            <div value="koala" class="btn--pri"><p>Koalav</div>
+            <div value="lion" class="btn--pri"><p>Lion</p></div>
+            <div value="look1" class="btn--pri"><p>Look1</p></div>
+            <div value="look2" class="btn--pri"><p>Look2</p></div>
+            <div value="manly_face" class="btn--pri"><p>Manly Face</p></div>
+            <div value="plastic_ocean" class="btn--pri"><p>Plastic Ocean</p></div>
+            <div value="pumpkin" class="btn--pri"><p>Pumpkin</p></div>
+            <div value="scuba" class="btn--pri"><p>Scuba</p></div>
+            <div value="tape_face" class="btn--pri"><p>Tape Face</p></div>
+            <div value="teddycigar" class="btn--pri"><p>Teddy Cigar</p></div>
+            <div value="tiny_sunglasses" class="btn--pri"><p>Tiny Sunglasses</p></div>
+            <div value="topology" class="btn--pri"><p>Topology</p></div>
+          </div>
+        </div>
+      </div> 
+      <!-- main center (비디오) -->
+      <div class="main__center">
+        <div class="videos__group">
+          <div id="video-grid">
+                <!-- 자막 -->
+                <div id="videoBig">
+                  <p id="videoSubtitles"></p>
+                  <canvas id="remoteCanvas" width="800" height="600"></canvas>
+                  <video id="videoOutput" autoplay width="800" height="600" style="display:none;"></video>
+                  </div>
+                  <div id="videoSmall">
+                    <video id="videoInput" autoplay width="360" height="280" ></video>
+                </div>
+            </div>
+          </div>
+        </div> 
+
+      <!-- main-right -->
+      <div class="main__right">
+        <div class="main__chat_window" style="display: none;">
+          <div class="chat__header">
+              <div class="greeting">
+                <span class="chat__header__greetings" id="username">
+                </span>
+              </div>
+            <!-- <div class="switch" id="translate-text">
+              <p>번역</p>
+              <div class="switch__1" id="noncheck">
+                <input id="switch-1" type="checkbox">
+                <label for="switch-1"></label>
+              </div>
+              <div class="switch__2" id="checked" style="display:none;">
+                <input id="switch-2" type="checkbox" checked>
+                <label for="switch-2"></label>
+              </div>
+            </div> -->
+          </div>
+          <div id="chatView">
+          </div>
+          <form id="chatForm" onsubmit="return false">
+              <input type="text" id="msg" autocomplete="off" placeholder="Type message here...">
+              <input type="submit" id="send" value="전송">
+          </form>
+        </div>
+        <!-- 인생네컷 -->
+      <div>
+          <div id="div4cut" style="display: none;">
+            <canvas id="canvas" width="560" height="950"></canvas>
+          </div>
+     </div>
+    </div>
+  </div>
+     <!-- 옵션 -->
+     <div class="options">
+      <div class="menu-container">
+        <ul id="menu">
+          <a class="menu-button icon-plus" style="overflow: hidden;" href="#menu" title="Show navigation"></a>
+          <a class="menu-button icon-minus" style="overflow: hidden;" href="#0" title="Hide navigation"></a>
+          <!-- 필터 on/off -->
+          <li class="menu-item"  id="filter"  onclick="Filtershow()">
+            <i class="fa-solid fa-masks-theater menu-icon check" style="display: none;"></i>
+            <i class="fa-solid fa-masks-theater menu-icon "></i>         
+          </li>
+          <!-- 인생네컷 -->
+          <li class="menu-item"  id="btn-capture" onclick="initialize()">
+            <i class="fa-solid fa-camera-retro menu-icon check"  style="display: none;"></i>
+            <i class="fa-solid fa-camera-retro menu-icon" aria-hidden="true"></i>
+          </li>
+          <!-- 채팅 -->
+          <li id="showChat" class="menu-item"  onclick="show()">
+            <i class="fa-solid fa-message menu-icon check"  style="display: none;"></i>
+            <i class="fa-solid fa-message menu-icon"></i>
+          </li>
+          <!-- 번역 -->
+          <li id="speeckTranslate" class="menu-item" onclick="startListen()">
+            <i class="fa-solid fa-language menu-icon"></i>
+            <i class="fa-solid fa-language menu-icon check"  style="display: none;"></i>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script type="text/javascript" src="lib/deepar.js"></script>
+    <!-- <script src="js/index.js"></script> -->
+  </body>
+</html>

@@ -1,0 +1,91 @@
+/*******************************************************************
+// 위치 : src/assets/scss/variables.scss
+// 설명 : 프로젝트 전체에 적용되는 변수에 대해 정의함
+// 주의 : 컴포넌트 갯수 만큼 실행되기 때문에 변수에 대해서만 정의해야합니다. 
+          (실제 CSS에 대한 적용은 _index.scss에 작성)
+//        이 파일은 vue.config.js에 설정되면 됨
+********************************************************************/
+// vuetify를 사용할 경우 vuetify의 일부 변수를 사용할 수 있음
+// @import "~vuetify/src/styles/styles.sass"; 
+
+// Vuetify Globals
+// Vuetify에 자동으로 오버라이드 됨
+///////////////////////////////////////////////
+
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url('@/assets/fonts/AppleSDGothicNeo/AppleSDGothicNeoUL.ttf') format('truetype');
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url('@/assets/fonts/AppleSDGothicNeo/AppleSDGothicNeoL.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url('@/assets/fonts/AppleSDGothicNeo/AppleSDGothicNeoM.ttf') format('truetype');
+  font-weight: initial;
+}
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url('@/assets/fonts/AppleSDGothicNeo/AppleSDGothicNeoR.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url('@/assets/fonts/AppleSDGothicNeo/AppleSDGothicNeoSB.ttf') format('truetype');
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url('@/assets/fonts/AppleSDGothicNeo/AppleSDGothicNeoB.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url('@/assets/fonts/AppleSDGothicNeo/AppleSDGothicNeoEB.ttf') format('truetype');
+  font-weight: 800;
+}
+@font-face {
+  font-family: "Apple SD Gothic Neo";
+  src: url('@/assets/fonts/AppleSDGothicNeo/AppleSDGothicNeoH.ttf') format('truetype');
+  font-weight: 900;
+}
+@font-face {
+  font-family: "Openas";
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/Openas.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+$body-font: "Apple SD Gothic Neo", "Openas", sans-serif;
+$border-radius-root: 6px;
+$font-size-root: 14px;
+
+
+// 사용자 정의 변수
+// 여기에 매인컬러, 서브컬러 등의 변수를 설정하면 SCSS 어디에서도 사용할 수 있습니다. 
+//////////////////////////////////////////////
+$color-main : linear-gradient(180deg, #7C58EB 0%, #6E9DF5 100%);
+$color-blue : #6E9DF5;
+$color-purple : #7C58EB;
+$color-red : #F04438;
+$color-black : #1B1F24;
+$color-gray25 : #F8F9FC;
+$color-gray50 : #F8F9FA;
+$color-gray100 : #F8F9FC;
+$color-gray200 : #DEE2E6;
+$color-gray300 : #CED4DA;
+$color-gray400 : #ADB5BD;
+$color-gray500 : #868E96;;
+$color-gray600 : #4A5056;
+$color-gray700 : #3D4248;;
+$color-gray800 : #31363B;
+$color-gray25 : #292D32;
+
+
+
+
+
+
